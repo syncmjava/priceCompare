@@ -9,12 +9,10 @@
 	      , ss.shop_name 
     from (select pt.product_no
                , pt.product_name
-               , min(pp.product_price) product_price 
-          from product_price pp
-              , product pt
-	      where pt.product_no = pp.product_no
+               , min(pt.product_price) product_price 
+          from product pt
 	      group by pt.product_no, pt.product_name) p
-	      , product_price pp1 
+	      , product pp1 
 	      left join shops ss on pp1.shop_id = ss.shop_id
 	where p.product_price = pp1.product_price
   </select>
@@ -27,15 +25,12 @@
 	      , ss.shop_name 
     from (select pt.product_no
                , pt.product_name
-               , min(pp.product_price) product_price 
-          from product_price pp
-              , product pt
-	      where pt.product_no = pp.product_no
+               , min(pt.product_price) product_price 
+          from product pt
 	      group by pt.product_no, pt.product_name) p
-	      , product_price pp1 
+	      , product pp1 
 	      left join shops ss on pp1.shop_id = ss.shop_id
 	where p.product_price = pp1.product_price
-	and   p.product_no = #{product_no}
   </select>
   
   
@@ -44,7 +39,7 @@
            , ss.shop_name
            , ss.shop_id
            , pp.product_price product_price 
-      from product_price pp
+      from product pp
            left join shops ss on pp.shop_id = ss.shop_id
 	  where pp.product_no = #{product_no}
   </select>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.rakuten.inv.pilot.UserMasterMapperTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.672 sec - in com.rakuten.inv.pilot.UserMasterMapperTest

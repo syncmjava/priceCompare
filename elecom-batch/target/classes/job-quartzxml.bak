@@ -1,0 +1,241 @@
+<bean:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:bean="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    ">
+
+	<!-- spring batch context -->
+	<bean:bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<bean:property name="transactionManager" ref="transactionManager" />
+	</bean:bean>
+
+	<bean:bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<bean:bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<bean:property name="jobRepository" ref="jobRepository" />
+	</bean:bean>
+
+	<bean:bean
+		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<bean:property name="jobRegistry" ref="jobRegistry" />
+	</bean:bean>
+
+	<bean:bean id="jobRegistry"
+		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	<!-- spring batch context -->
+
+<!-- 	<bean:bean id="userMaster" class="com.rakuten.inv.entity.UserMaster" -->
+<!-- 		scope="prototype" /> -->
+
+<!-- 	<bean:bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> -->
+<!-- 		<bean:constructor-arg ref="sqlSessionFactory" /> -->
+<!-- 	</bean:bean> -->
+<!-- 	<bean:bean id="customWriter" -->
+<!-- 		class="org.mybatis.spring.batch.MyBatisBatchItemWriter"> -->
+<!-- 		<bean:property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+<!-- 		<bean:property name="statementId" -->
+<!-- 			value="com.rakuten.inv.mapper.UserMasterMapper.insertSelective" /> -->
+<!-- 	</bean:bean> -->
+	<!-- create by chunhui.li step listeners -->
+<!-- 	<bean:bean id="userJobLis" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.listener.UserJobExecutionListener"></bean:bean> -->
+<!-- 	<bean:bean id="userJobReadLis" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.listener.UserStep1JobExecutionListener"></bean:bean> -->
+<!-- 	<bean:bean id="validator" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.validator.UserMasterJobParametersValidator"></bean:bean> -->
+<!-- 	<bean:bean id="userWriter" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.writer.UserMapperItemWriter"></bean:bean> -->
+<!-- 	<bean:bean id="csvItemProcessor" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.processor.CsvItemProcessor"> -->
+<!-- 		<bean:property name="validator" ref="itemValidator" /> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="itemValidator" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.validator.CsvItemProcessorValidator"></bean:bean> -->
+	<!-- create by chunhui.li step listeners -->
+
+	<!-- batch job setting -->
+<!-- 	<job id="userMasterJob" restartable="false"> -->
+<!-- 		<step id="step0"> -->
+<!-- 			<tasklet ref="checkFileExistTasklet"> -->
+<!-- 			</tasklet> -->
+<!-- 			<end on="FAILED" /> -->
+<!-- 			<next on="*" to="step1" /> -->
+<!-- 		</step> -->
+<!-- 		<step id="step1" next="step2"> -->
+<!-- 			<tasklet> -->
+<!-- 				<chunk reader="cvsFileItemReader" writer="userWriter" -->
+<!-- 					processor="csvItemProcessor" commit-interval="10"> -->
+<!-- 				</chunk> -->
+<!-- 			</tasklet> -->
+<!-- 			<listeners> -->
+<!-- 				<listener ref="userJobReadLis"></listener> -->
+<!-- 			</listeners> -->
+<!-- 		</step> -->
+<!-- 		<step id="step2"> -->
+<!-- 			<tasklet ref="backupFileTasklet" /> -->
+<!-- 		</step> -->
+
+<!-- 		<listeners> -->
+<!-- 			<listener ref="userJobLis"></listener> -->
+<!-- 		</listeners> -->
+<!-- 		<validator ref="validator"> -->
+<!-- 		</validator> -->
+<!-- 	</job> -->
+
+<!-- 	<bean:bean id="checkFileExistTasklet" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.tasklet.CheckFileExistTasklet"> -->
+<!-- 		<bean:property name="directoryResource"> -->
+<!-- 			<bean:bean id="directory" -->
+<!-- 				class="org.springframework.core.io.FileSystemResource"> -->
+<!-- 				<bean:constructor-arg value="target/classes/file" /> -->
+<!-- 			</bean:bean> -->
+<!-- 		</bean:property> -->
+<!-- 		<bean:property name="FileNameList"> -->
+<!-- 			<bean:list> -->
+<!-- 				<bean:value>userMaster.csv</bean:value> -->
+<!-- 			</bean:list> -->
+<!-- 		</bean:property> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="backupFileTasklet" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.tasklet.BackupFileTasklet"> -->
+<!-- 		<bean:property name="directoryResource"> -->
+<!-- 			<bean:bean id="directory" -->
+<!-- 				class="org.springframework.core.io.FileSystemResource"> -->
+<!-- 				<bean:constructor-arg value="target/classes/file" /> -->
+<!-- 			</bean:bean> -->
+<!-- 		</bean:property> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="cvsFileItemReader" -->
+<!-- 		class="org.springframework.batch.item.file.FlatFileItemReader"> -->
+
+<!-- 		<bean:property name="resource" value="classpath:file/userMaster.csv" /> -->
+
+<!-- 		<bean:property name="lineMapper"> -->
+<!-- 			<bean:bean -->
+<!-- 				class="org.springframework.batch.item.file.mapping.DefaultLineMapper"> -->
+<!-- 				<bean:property name="lineTokenizer"> -->
+<!-- 					<bean:bean -->
+<!-- 						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"> -->
+<!-- 						<bean:property name="names" value="name,account,password" /> -->
+<!-- 					</bean:bean> -->
+<!-- 				</bean:property> -->
+<!-- 				<bean:property name="fieldSetMapper"> -->
+<!-- 					<bean:bean -->
+<!-- 						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper"> -->
+<!-- 						<bean:property name="prototypeBeanName" value="userMaster" /> -->
+<!-- 					</bean:bean> -->
+<!-- 				</bean:property> -->
+<!-- 			</bean:bean> -->
+<!-- 		</bean:property> -->
+
+<!-- 	</bean:bean> -->
+
+	<!-- run every 10 seconds -->
+<!-- 	<bean:bean id="cronTrigger1" -->
+<!-- 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!-- 		<bean:property name="jobDetail" ref="jobDetailUserMasterJob" /> -->
+<!-- 		<bean:property name="cronExpression" value="* 10 * * * ?" /> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="jobDetailUserMasterJob" -->
+<!-- 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> -->
+<!-- 		<bean:property name="jobClass" -->
+<!-- 			value="com.rakuten.inv.pilot.batch.JobLauncherDetails" /> -->
+<!-- 		<bean:property name="group" value="quartz-batch" /> -->
+<!-- 		<bean:property name="jobDataAsMap"> -->
+<!-- 			<bean:map> -->
+<!-- 				<bean:entry key="jobName" value="userMasterJob" /> -->
+<!-- 				<bean:entry key="jobLocator" value-ref="jobRegistry" /> -->
+<!-- 				<bean:entry key="jobLauncher" value-ref="jobLauncher" /> -->
+<!-- 			</bean:map> -->
+<!-- 		</bean:property> -->
+<!-- 	</bean:bean> -->
+	<!-- ################################################################################################ -->
+	<!-- 在庫更新のpilot start bt chunhui.li -->
+	<!-- ################################################################################################ -->
+
+	<!-- batch job setting -->
+<!-- 	<job id="storeUpdate" restartable="false"> -->
+<!-- 		<step id="storeUpdate.isJudgeDay"> -->
+<!-- 			<tasklet ref="isJudgeDay"> -->
+<!-- 			</tasklet> -->
+<!-- 			<end on="FAILED" /> -->
+<!-- 			<next on="*" to="storeUpdate.isFileExisty" /> -->
+<!-- 		</step> -->
+<!-- 		<step id="storeUpdate.isFileExisty"> -->
+<!-- 			<tasklet ref="isFileExisty"> -->
+<!-- 			</tasklet> -->
+<!-- 			<end on="FAILED" /> -->
+<!-- 			<next on="*" to="storeUpdate.step1" /> -->
+<!-- 		</step> -->
+<!-- 		<step id="storeUpdate.step1"> -->
+<!-- 			<tasklet> -->
+<!-- 				<chunk reader="cvsFileItemReader" writer="userWriter" -->
+<!-- 					processor="csvItemProcessor" commit-interval="10"> -->
+<!-- 				</chunk> -->
+<!-- 			</tasklet> -->
+<!-- 		</step> -->
+<!-- 	</job> -->
+
+<!-- 	<bean:bean id="storeUpdateJobDetail" -->
+<!-- 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> -->
+<!-- 		<bean:property name="jobClass" -->
+<!-- 			value="com.rakuten.inv.pilot.batch.JobLauncherDetails" /> -->
+<!-- 		<bean:property name="group" value="quartz-batch" /> -->
+<!-- 		<bean:property name="jobDataAsMap"> -->
+<!-- 			<bean:map> -->
+<!-- 				<bean:entry key="jobName" value="storeUpdate" /> -->
+<!-- 				<bean:entry key="jobLocator" value-ref="jobRegistry" /> -->
+<!-- 				<bean:entry key="jobLauncher" value-ref="jobLauncher" /> -->
+<!-- 			</bean:map> -->
+<!-- 		</bean:property> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="cronTriggerStoreUpdate" -->
+<!-- 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!-- 		<bean:property name="jobDetail" ref="storeUpdateJobDetail" /> -->
+<!-- 		<bean:property name="cronExpression" value="* 5 * * * ?" /> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="isJudgeDay" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.tasklet.StoreUpdateIsJudgeDayTasklet"> -->
+<!-- 	</bean:bean> -->
+
+<!-- 	<bean:bean id="isFileExisty" -->
+<!-- 		class="com.rakuten.inv.pilot.batch.tasklet.CheckFileExistTasklet"> -->
+<!-- 		<bean:property name="directoryResource"> -->
+<!-- 			<bean:bean id="directory" -->
+<!-- 				class="org.springframework.core.io.FileSystemResource"> -->
+<!-- 				<bean:constructor-arg value="target/classes/file" /> -->
+<!-- 			</bean:bean> -->
+<!-- 		</bean:property> -->
+<!-- 		<bean:property name="FileNameList"> -->
+<!-- 			<bean:list> -->
+<!-- 				<bean:value>storeUpdate.csv</bean:value> -->
+<!-- 			</bean:list> -->
+<!-- 		</bean:property> -->
+<!-- 	</bean:bean> -->
+	<!-- ################################################################################################ -->
+	<!-- 在庫更新のpilot end bt chunhui.li -->
+	<!-- ################################################################################################ -->
+
+	<bean:bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<bean:property name="configLocation">
+			<bean:value>classpath:quartz.properties</bean:value>
+		</bean:property>
+		<bean:property name="triggers">
+			<bean:list>
+				<!-- <bean:ref bean="cronTrigger1" /> -->
+				<bean:ref bean="cronTriggerStoreUpdate" />
+			</bean:list>
+		</bean:property>
+	</bean:bean>
+</bean:beans>

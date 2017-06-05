@@ -1,0 +1,78 @@
+<bean:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:bean="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+    http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+    ">
+
+	<!-- spring batch context -->
+	<bean:bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<bean:property name="transactionManager" ref="transactionManager" />
+	</bean:bean>
+
+	<bean:bean id="transactionManager"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<bean:bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<bean:property name="jobRepository" ref="jobRepository" />
+	</bean:bean>
+
+	<bean:bean
+		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<bean:property name="jobRegistry" ref="jobRegistry" />
+	</bean:bean>
+
+	<bean:bean id="jobRegistry"
+		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	<!-- spring batch context -->
+
+	<job id="yodobashiJob">
+		<step id="step1">
+			<tasklet>
+				<chunk reader="yodobashiItemReader" writer="yodoboshiItemWriter"
+					processor="yodobashiItemProcessor" commit-interval="10">
+				</chunk>
+			</tasklet>
+		</step>
+	</job>
+
+	<bean:bean id="yodobashiUtils" class="com.elecom.crawler.common.util.YodobashiCrawlerUtils" >
+	</bean:bean>
+	<bean:bean id="yodobashiItemReader" class="com.elecom.crawler.batch.reader.YodobashiItemReader" >
+		<bean:property name="utils" ref="yodobashiUtils" />
+	</bean:bean>
+	
+	<bean:bean id="yodobashiItemProcessor" class="com.elecom.crawler.batch.processor.YodobashiItemProcessor" >
+	</bean:bean>
+
+	<bean:bean id="yodoboshiItemWriter" class="com.elecom.crawler.batch.writer.YodoboshiItemWriter" >
+	</bean:bean>
+
+	<bean:bean id="yodobashiLauncher" class="com.elecom.crawler.batch.job.YodobashiLauncher" >
+		<bean:property name="jobLauncher" ref="jobLauncher" />
+		<bean:property name="job" ref="yodobashiJob" />
+	</bean:bean>
+	
+	<task:scheduled-tasks>
+		<task:scheduled ref="yodobashiLauncher" method="launcher"
+			fixed-delay="5000" cron="* * 1 * * *" />
+	</task:scheduled-tasks>
+
+
+	<!-- <bean:bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> -->
+	<!-- <bean:property name="configLocation"> -->
+	<!-- <bean:value>classpath:quartz.properties</bean:value> -->
+	<!-- </bean:property> -->
+	<!-- <bean:property name="triggers"> -->
+	<!-- <bean:list> -->
+	<!-- <bean:ref bean="cronTrigger1" /> -->
+	<!-- <bean:ref bean="cronTriggerStoreUpdate" /> -->
+	<!-- </bean:list> -->
+	<!-- </bean:property> -->
+	<!-- </bean:bean> -->
+</bean:beans>

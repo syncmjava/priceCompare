@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.elecom.crawler.common.properties.ServletPropertiesSettings",
+      "name": "servlet.properties",
+      "type": "com.elecom.crawler.common.properties.ServletPropertiesSettings"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.elecom.crawler.common.properties.ServletPropertiesSettings",
+      "name": "servlet.properties.info",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    }
+  ]
+}
