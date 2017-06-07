@@ -8,6 +8,9 @@
     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
     ">
 
+	<!-- ############################################################################################## -->
+    <!-- 共通設定 -->
+	<!-- ############################################################################################## -->
 	<!-- spring batch context -->
 	<bean:bean id="jobRepository"
 		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
@@ -29,50 +32,38 @@
 
 	<bean:bean id="jobRegistry"
 		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+	<bean:bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<bean:constructor-arg ref="sqlSessionFactory" />
+	</bean:bean>
 	<!-- spring batch context -->
-
-	<job id="yodobashiJob">
-		<step id="step1">
-			<tasklet>
-				<chunk reader="yodobashiItemReader" writer="yodoboshiItemWriter"
-					processor="yodobashiItemProcessor" commit-interval="10">
-				</chunk>
-			</tasklet>
-		</step>
-	</job>
-
-	<bean:bean id="yodobashiUtils" class="com.elecom.crawler.common.util.YodobashiCrawlerUtils" >
-	</bean:bean>
-	<bean:bean id="yodobashiItemReader" class="com.elecom.crawler.batch.reader.YodobashiItemReader" >
-		<bean:property name="utils" ref="yodobashiUtils" />
-	</bean:bean>
 	
-	<bean:bean id="yodobashiItemProcessor" class="com.elecom.crawler.batch.processor.YodobashiItemProcessor" >
+	<!-- ############################################################################################## -->
+    <!-- Import設定 -->
+	<!-- ############################################################################################## -->
+<!--     <bean:import resource="/job/job-yodobashi.xml"/> -->
+<!--     <bean:import resource="/job/job-yamada.xml"/> -->
+<!--     <bean:import resource="/job/job-amazon.xml"/> -->
+<!--     <bean:import resource="/job/job-searchimport.xml"/> -->
+    <bean:import resource="/job/job-searchProduct.xml"/>
+
+	<!-- ############################################################################################## -->
+    <!-- 起動設置 -->
+	<!-- ############################################################################################## -->
+	<bean:bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<bean:property name="configLocation">
+			<bean:value>classpath:quartz.properties</bean:value>
+		</bean:property>
+		<bean:property name="triggers">
+			<bean:list>
+<!-- 				<bean:ref bean="crawlerYodobashiCronTrigger" /> -->
+<!-- 				<bean:ref bean="crawlerYamadaCronTrigger" /> -->
+<!-- 				<bean:ref bean="crawlerAmazonCronTrigger" /> -->
+<!-- 				<bean:ref bean="serachUrlImportCronTrigger" /> -->
+				<bean:ref bean="crawlerProductSearchCronTrigger" />
+			</bean:list>
+		</bean:property>
 	</bean:bean>
 
-	<bean:bean id="yodoboshiItemWriter" class="com.elecom.crawler.batch.writer.YodoboshiItemWriter" >
-	</bean:bean>
 
-	<bean:bean id="yodobashiLauncher" class="com.elecom.crawler.batch.job.YodobashiLauncher" >
-		<bean:property name="jobLauncher" ref="jobLauncher" />
-		<bean:property name="job" ref="yodobashiJob" />
-	</bean:bean>
-	
-	<task:scheduled-tasks>
-		<task:scheduled ref="yodobashiLauncher" method="launcher"
-			fixed-delay="5000" cron="* * 1 * * *" />
-	</task:scheduled-tasks>
-
-
-	<!-- <bean:bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> -->
-	<!-- <bean:property name="configLocation"> -->
-	<!-- <bean:value>classpath:quartz.properties</bean:value> -->
-	<!-- </bean:property> -->
-	<!-- <bean:property name="triggers"> -->
-	<!-- <bean:list> -->
-	<!-- <bean:ref bean="cronTrigger1" /> -->
-	<!-- <bean:ref bean="cronTriggerStoreUpdate" /> -->
-	<!-- </bean:list> -->
-	<!-- </bean:property> -->
-	<!-- </bean:bean> -->
 </bean:beans>

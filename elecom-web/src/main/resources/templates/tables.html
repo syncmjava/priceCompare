@@ -26,16 +26,20 @@
             </div>
             <!-- /.navbar-header -->
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu">
+						<li class="sidebar-search">
+							<div class="input-group custom-search-form">
+								<span class="input-group-btn">
+								</span>
+							</div>
+						</li>
+						<li><a th:href="@{/}"><i class="fa fa-dashboard fa-fw"></i>Product-List</a></li>
+						<li><a th:href="@{/uploadfile}"><i class="fa fa-dashboard fa-fw"></i>Product-Upload</a></li>
+					</ul>
+				</div>
+			</div>
             <!-- /.navbar-static-side -->
         </nav>
 
@@ -78,7 +82,6 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
 	<input type="hidden" th:value="${#httpServletRequest.getContextPath()}" id="ctx"/>

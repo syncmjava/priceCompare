@@ -29,7 +29,6 @@ function loadTable(datas) {
 	table += '</tr>';
 	table += '</thead>';
 	table += '<tbody>';
-
 	var cnt = datas.length;
 	for(var i = 0; i < cnt; i++) {
 		var data = datas[i];
@@ -38,7 +37,11 @@ function loadTable(datas) {
 			table += '    <td rowspan="' + cnt +'">' + data.product_no + '</td>';
 		} 
 		table += '    <td>' + data.shop_name + '</td>';
-		table += '    <td><span style="color:red">$' + data.product_price + '</span></td>';
+		if (data.product_link_url != null) {
+			table += '    <td><a target="_blank" href="'+ data.product_link_url +'"><span style="color:red">$' + $.trim(data.product_price) + '</span></a></td>';
+		} else {
+			table += '    <td><a href="#"><span style="color:red">$' + $.trim(data.product_price) + '</span></a></td>';
+		}
 		table += '  </tr>';
 	}
 	table += '</tbody>';

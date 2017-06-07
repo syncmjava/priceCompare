@@ -1,5 +1,7 @@
 package com.elecom.crawler.entity;
 
+import org.springframework.util.StringUtils;
+
 public class Product extends Entity {
 
 	private String product_no;
@@ -9,6 +11,7 @@ public class Product extends Entity {
 	private String product_point;
 	private String product_image_url;
 	private String product_link_url;
+	private int crawler_job_id;
 
 	public String getProduct_no() {
 		return product_no;
@@ -31,6 +34,9 @@ public class Product extends Entity {
 	}
 
 	public void setProduct_price(String product_price) {
+		if (StringUtils.isEmpty(product_price)) {
+			product_price = "0";
+		}
 		this.product_price = product_price;
 	}
 
@@ -63,7 +69,18 @@ public class Product extends Entity {
 	}
 
 	public void setProduct_point(String product_point) {
+		if (StringUtils.isEmpty(product_point)) {
+			product_point = "0";
+		}
 		this.product_point = product_point;
+	}
+
+	public int getCrawler_job_id() {
+		return crawler_job_id;
+	}
+
+	public void setCrawler_job_id(int crawler_job_id) {
+		this.crawler_job_id = crawler_job_id;
 	}
 
 }

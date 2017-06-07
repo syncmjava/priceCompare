@@ -7,6 +7,8 @@ public class ProductBaseInfo {
 	private String shop_id;
 	private String shop_name;
 	private String product_price;
+	private String product_image_url;
+	private String product_link_url;
 	public String getProduct_no() {
 		return product_no;
 	}
@@ -36,6 +38,18 @@ public class ProductBaseInfo {
 	}
 	public void setShop_id(String shop_id) {
 		this.shop_id = shop_id;
+	}
+	public String getProduct_image_url() {
+		return product_image_url;
+	}
+	public void setProduct_image_url(String product_image_url) {
+		this.product_image_url = product_image_url;
+	}
+	public String getProduct_link_url() {
+		return product_link_url;
+	}
+	public void setProduct_link_url(String product_link_url) {
+		this.product_link_url = product_link_url;
 	}
 	
 	

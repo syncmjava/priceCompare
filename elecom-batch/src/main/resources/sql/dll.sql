@@ -3,16 +3,33 @@
 -- create database crawler;
 -- use crawler;
 Drop table `crawler`.`crawler_job`;
-CREATE TABLE `crawler`.`crawler_job` (
-  `crawler_job_id` INT NOT NULL AUTO_INCREMENT,
-  `crawler_job_type` VARCHAR(1) NOT NULL,
-  `crawler_search_url` VARCHAR(255) NOT NULL,
-  `crawler_flag` VARCHAR(1) NOT NULL DEFAULT 0,
-  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_by` VARCHAR(45) NOT NULL DEFAULT '-1',
-  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` VARCHAR(45) NOT NULL DEFAULT '-1',
-  PRIMARY KEY (`crawler_job_id`));
+CREATE TABLE `crawler_job` (
+	`crawler_job_id` INT(11) NOT NULL,
+	`crawler_job_type` VARCHAR(1) NOT NULL COLLATE 'utf8_unicode_ci',
+	`crawler_search_url` VARCHAR(255) NOT NULL COLLATE 'utf8_unicode_ci',
+	`crawler_flag` VARCHAR(1) NOT NULL DEFAULT '0' COLLATE 'utf8_unicode_ci',
+	`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`create_by` VARCHAR(45) NOT NULL DEFAULT '-1' COLLATE 'utf8_unicode_ci',
+	`update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`update_by` VARCHAR(45) NOT NULL DEFAULT '-1' COLLATE 'utf8_unicode_ci',
+	PRIMARY KEY (`crawler_job_id`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+;
 
---http://www.yamada-denkiweb.com/search/THB11BCSTHB11BCS/?path=&searchbox=1
---http://www.yodobashi.com/?word=
+  
+Drop table `crawler_product_job`;
+CREATE TABLE `crawler_product_job` (
+	`crawler_product_no` VARCHAR(255) NOT NULL COLLATE 'utf8_unicode_ci',
+	`crawler_product_flag` VARCHAR(1) NOT NULL DEFAULT '0' COLLATE 'utf8_unicode_ci',
+	`create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`create_by` VARCHAR(45) NOT NULL DEFAULT '-1' COLLATE 'utf8_unicode_ci',
+	`update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`update_by` VARCHAR(45) NOT NULL DEFAULT '-1' COLLATE 'utf8_unicode_ci',
+	PRIMARY KEY (`crawler_product_no`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+;
+

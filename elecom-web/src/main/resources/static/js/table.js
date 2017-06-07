@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('#example tbody').on( 'click', 'tr', function () {
     	var table = $('#example').DataTable();
         if (table) {
-        	var data = table.row(this.sectionRowIndex).data();
+        	var data = table.row(this._DT_RowIndex).data();
         	if (data) {
                 window.location.href = compareUrl+data.product_no;
         	}
