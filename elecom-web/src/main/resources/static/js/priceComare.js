@@ -107,7 +107,7 @@ function loadBarChart(datas) {
 	   };
 
 	   var series = [{
-	      name: '実施日：2017/06/02',
+	      name: $.format.date(new Date, "実施日： yyyy/MM/dd"),
 	      data: prices
 	   }];
 

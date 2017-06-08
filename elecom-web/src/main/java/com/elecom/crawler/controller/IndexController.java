@@ -125,7 +125,7 @@ public class IndexController {
 
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
-			File file = ResourceUtils.getFile("classpath:template.xls");
+			File file = ResourceUtils.getFile("classpath:template.xlsx");
 			XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(file));
 			Sheet sheet = wb.getSheetAt(0);
 			List<ProductBaseInfo> productList = service.getProductAllPricesByPno(pno);
@@ -146,6 +146,8 @@ public class IndexController {
 					sheet.getRow(6).getCell(3).setCellValue(f);
 				}
 			}
+			sheet.getRow(7).getCell(1).setCellValue("実施日：" + CommonUtils.getCurrentDate());
+			
 			wb.write(os);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,7 +158,7 @@ public class IndexController {
 		response.reset();
 		response.setContentType("application/vnd.ms-excel;charset=utf-8");
 		response.setHeader("Content-Disposition",
-				"attachment;filename=" + new String((pno + ".xls").getBytes(), "iso-8859-1"));
+				"attachment;filename=" + new String((pno + ".xlsx").getBytes(), "iso-8859-1"));
 
 		ServletOutputStream out = response.getOutputStream();
 		BufferedInputStream bis = null;
